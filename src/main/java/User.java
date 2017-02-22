@@ -3,9 +3,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by nilbot on 2/1/17.
- */
 public class User {
     private Integer id;
     private Map<Movie, Rating> myRatings;

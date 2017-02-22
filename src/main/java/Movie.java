@@ -1,6 +1,3 @@
-/**
- * Created by nilbot on 2/1/17.
- */
 public class Movie {
     private String name;
     private Integer id;

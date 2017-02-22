@@ -1,8 +1,3 @@
-import com.sun.istack.internal.Nullable;
-
-/**
- * Created by nilbot on 2/1/17.
- */
 public class Rating {
     private User user;
     private Double rating;
@@ -25,7 +20,6 @@ public class Rating {
         this.user = null;
     }
 
-    @Nullable
     public User getUser() {
         return this.user;
     }
