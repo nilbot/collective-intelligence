@@ -83,7 +83,7 @@ public class Pearson implements SimilarityInterface {
             test += finished;
         }
 
-        if (test != totes) {
+        if (test != totes * totes) {
             System.err.println("finished parallel task count does not equal to total workload");
             System.exit(1); // TODO handle gracefully once tested
         }
