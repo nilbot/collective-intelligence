@@ -1,4 +1,6 @@
 public class Rating {
+    public static final Double MIN_RATING = 1.0;
+    public static final Double MAX_RATING = 5.0;
     private User user;
     private Double rating;
     private Movie movie;

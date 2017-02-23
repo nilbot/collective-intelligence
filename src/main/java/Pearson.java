@@ -6,8 +6,6 @@ import java.util.concurrent.*;
 
 public class Pearson implements SimilarityInterface {
 
-    private static Double MIN_RATING = 1.0;
-    private static Double MAX_RATING = 5.0;
     private Double[][] simMatrix;
     private Set<User> userSet;
     private static Object lock = new Object();
@@ -125,18 +123,18 @@ public class Pearson implements SimilarityInterface {
         Double top = .0;
         Double denom = .0;
         for (User p : neighbours) {
-            if (p.hasRated(m)) {
+            if (p.getRating(m) != .0) {
                 top += getPearson(u, p) * (p.getRating(m) - p.getMeanRating());
                 denom += Math.abs(getPearson(u, p));
             }
         }
         if (denom > 0) {
             double prediction = u.getMeanRating() + top / denom;
-            if (prediction < MIN_RATING) {
-                prediction = MIN_RATING;
+            if (prediction < Rating.MIN_RATING) {
+                prediction = Rating.MIN_RATING;
             }
-            if (prediction > MAX_RATING) {
-                prediction = MAX_RATING;
+            if (prediction > Rating.MAX_RATING) {
+                prediction = Rating.MAX_RATING;
             }
             return prediction;
         } else {

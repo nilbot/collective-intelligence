@@ -28,22 +28,18 @@ public class User {
     public Set<Movie> getCommonMovies(User otherUser) {
         Set<Movie> res = new HashSet<>();
         for (Rating r: getRatings()) {
-            if (otherUser.hasRated(r.getMovie())) {
+            if (otherUser.getRating(r.getMovie()) != .0) {
                 res.add(r.getMovie());
             }
         }
         return res;
     }
 
-    // TODO delete this, not really making the API safer, 0 value checking is sufficient using other method
-    public boolean hasRated(Movie movie) {
-        return myRatings.containsKey(movie);
-    }
-
     public Set<Rating> getRatings() {
         return new HashSet<>(myRatings.values());
     }
 
+    // return 0. for no such rating
     public Double getRating(final Movie m) {
         Rating r = this.myRatings.get(m);
         if (r != null) {
