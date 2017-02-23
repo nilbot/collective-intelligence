@@ -67,7 +67,7 @@ public class Pearson implements SimilarityInterface {
 
         ExecutorService exe = Executors.newFixedThreadPool(coreCount);
         List<Future<Integer>> res = new ArrayList<>();
-        
+
         for (Set<User> portion : divide) {
             Future<Integer> future = exe.submit(new TinyWorkload(portion));
             res.add(future);

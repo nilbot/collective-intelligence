@@ -75,7 +75,7 @@ public class User {
         for (Iterator<Rating> i = getRatings().iterator(); i.hasNext() && count < holdbackSetSize; count++) {
             Rating r = i.next();
             this.holdbackSet.put(r.getMovie(),r);
-            this.myRatings.remove(r.getMovie());
+            i.remove();
         }
     }
 
