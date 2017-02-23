@@ -28,7 +28,7 @@ public class User {
     public Set<Movie> getCommonMovies(User otherUser) {
         Set<Movie> res = new HashSet<>();
         for (Rating r: getRatings()) {
-            if (otherUser.getRating(r.getMovie()) != .0) {
+            if (otherUser.getRating(r.getMovie()) != Rating.NO_RATING) {
                 res.add(r.getMovie());
             }
         }
@@ -39,13 +39,12 @@ public class User {
         return new HashSet<>(myRatings.values());
     }
 
-    // return 0. for no such rating
     public Double getRating(final Movie m) {
         Rating r = this.myRatings.get(m);
         if (r != null) {
             return r.getRating();
         }
-        return .0;
+        return Rating.NO_RATING;
     }
 
     public void addRating(Rating r) {

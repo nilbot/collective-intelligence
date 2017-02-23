@@ -123,7 +123,7 @@ public class Pearson implements SimilarityInterface {
         Double top = .0;
         Double denom = .0;
         for (User p : neighbours) {
-            if (p.getRating(m) != .0) {
+            if (p.getRating(m) != Rating.NO_RATING) {
                 top += getPearson(u, p) * (p.getRating(m) - p.getMeanRating());
                 denom += Math.abs(getPearson(u, p));
             }
