@@ -1,15 +1,24 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class User {
-    private Integer id;
-    private Map<Movie, Rating> myRatings;
-    private Map<Movie, Rating> holdbackSet;
+    private Integer id; // user id as given by the dataset
+    private Map<Movie, Rating> myRatings; // holds this user's ratings
+    private Map<Movie, Rating> holdbackSet; // for prediction error metrics
+
+    private static int instanceID = 0;
+    private static Object lock = new Object();
+
+    private Integer iid; // this id is for matrix index, internal only
+
+    protected void incrementIID() {
+        synchronized (lock) {
+            this.iid = instanceID++;
+        }
+    }
 
     public User(final Integer id) {
         this.id = id;
+        incrementIID();
         // building infrastructure
         this.myRatings = new HashMap<>();
         this.holdbackSet = new HashMap<>();
@@ -26,12 +35,21 @@ public class User {
         return res;
     }
 
+    // TODO delete this, not really making the API safer, 0 value checking is sufficient using other method
     public boolean hasRated(Movie movie) {
         return myRatings.containsKey(movie);
     }
 
     public Set<Rating> getRatings() {
         return new HashSet<>(myRatings.values());
+    }
+
+    public Double getRating(final Movie m) {
+        Rating r = this.myRatings.get(m);
+        if (r != null) {
+            return r.getRating();
+        }
+        return .0;
     }
 
     public void addRating(Rating r) {
@@ -42,6 +60,8 @@ public class User {
         return this.id;
     }
 
+    public Integer Id() { return this.iid; }
+
     public Double getHoldbackSetRating(Movie m) {
         return this.holdbackSet.get(m).getRating();
     }
@@ -50,16 +70,24 @@ public class User {
         this.holdbackSet.clear(); // should the test set is not empty, erase and redo
         int holdbackSetSize = (int)(myRatings.size() * percentage);
         int count = 0;
-        for (Rating r : getRatings()) {
-            if (count == holdbackSetSize) {
-                break;
-            }
+
+        // safe remove item
+        for (Iterator<Rating> i = getRatings().iterator(); i.hasNext() && count < holdbackSetSize; count++) {
+            Rating r = i.next();
             this.holdbackSet.put(r.getMovie(),r);
-            count++;
+            this.myRatings.remove(r.getMovie());
         }
     }
 
     public Set<Movie> getHoldbackSetMovies() {
         return this.holdbackSet.keySet();
+    }
+
+    public Double getMeanRating() {
+        Double res = .0;
+        for (Rating r : this.myRatings.values()) {
+            res += r.getRating();
+        }
+        return res / this.myRatings.size();
     }
 }
