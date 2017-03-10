@@ -76,6 +76,8 @@ public class DistanceResnick implements SimilarityInterface {
           + "\nfinished parallel task count does not equal to total workload");
       System.exit(1); // TODO handle gracefully once tested
     }
+
+    exe.shutdown();
   }
 
   @Override

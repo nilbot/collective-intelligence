@@ -76,6 +76,8 @@ public class PearsonResnick implements SimilarityInterface {
       System.err.println("finished parallel task count does not equal to total workload");
       System.exit(1); // TODO handle gracefully once tested
     }
+
+    exe.shutdown();
   }
 
   @Override
