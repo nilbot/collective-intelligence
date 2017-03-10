@@ -11,8 +11,8 @@ public class Main {
     String OUTPUT_STATS_PER_USER = "stats_user.csv";
     String OUTPUT_STATS_PER_MOVIE = "stats_movie.csv";
     String OUTPUT_BASELINE = "baseline.csv";
-    String OUTPUT_MSD = "msd.csv";
-    String OUTPUT_RESNICK = "resnick.csv";
+    String OUTPUT_MSD = "msd%d.csv";
+    String OUTPUT_RESNICK = "resnick%d.csv";
 
     System.out.println("Started...");
 
@@ -29,6 +29,8 @@ public class Main {
     System.out.println(
         "Rating bin count for 1.0: " + map.get(1.) + " 2.0: " + map.get(2.) + " 3.0: " + map.get(3.)
             + " 4.0: " + map.get(4.) + " 5.0: " + map.get(5.));
+
+    System.out.println("Mean Rating: " + DataSetStatistics.MeanRatingAll(ratingSet));
 
     DataWriter statsWriter = new DataWriter(OUTPUT_STATS_PER_USER);
     List<StatsPerXXObj> objs = DataSetStatistics.PerUser(userSet);
@@ -47,27 +49,27 @@ public class Main {
     // msdresnick
     DistanceResnick msdresnick = new DistanceResnick(userSet, movieSet, ratingSet);
 
-    // evaluation L1O on different threshold n
+    EvaluationInterface evalBaseLine = new L1OEvaluation(baseline);
+    EvalResult evalBaseLineRes = evalBaseLine.getEfficiency(userSet.size());
 
-    int[] N = {10, 20, 30, 40, 50};
+    DataWriter baselineWriter = new DataWriter(OUTPUT_BASELINE);
+    baselineWriter.writeData(EvalObj.header, new ArrayList<>(evalBaseLineRes.getEvalObjs()));
+    double evalBaseLineCoverage = evalBaseLine.getCoverage(userSet.size());
+    System.out.println(
+        "BaseLine\n====\nN: " + userSet.size() + "\nRMSE: " + evalBaseLineRes.getRmse()
+            + "\nCoverage: " + evalBaseLineCoverage + "\nEfficiency: " + evalBaseLineRes
+            .getRuntime() + " ms.\n");
+
+    // evaluation L1O on different threshold n
+    int[] N = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300};
     for (int n : N) {
-      EvaluationInterface evalBaseLine = new L1OEvaluation(baseline);
+
       EvaluationInterface evalMSD = new L1OEvaluation(msd);
       EvaluationInterface evalMSDResnick = new L1OEvaluation(msdresnick);
 
-      EvalResult evalBaseLineRes = evalBaseLine.getEfficiency(n);
-
-      DataWriter baselineWriter = new DataWriter(OUTPUT_BASELINE);
-      baselineWriter.writeData(EvalObj.header, new ArrayList<>(evalBaseLineRes.getEvalObjs()));
-      double evalBaseLineCoverage = evalBaseLine.getCoverage(n);
-      System.out.println(
-          "BaseLine\n====\nN: " + n + "\nRMSE: " + evalBaseLineRes.getRmse()
-              + "\nCoverage: " + evalBaseLineCoverage + "\nEfficiency: " + evalBaseLineRes
-              .getRuntime() + " ms.\n");
-
       EvalResult evalMSDRes = evalMSD.getEfficiency(n);
 
-      DataWriter msdWriter = new DataWriter(OUTPUT_MSD);
+      DataWriter msdWriter = new DataWriter(String.format(OUTPUT_MSD, n));
       msdWriter.writeData(EvalObj.header, new ArrayList<>(evalMSDRes.getEvalObjs()));
       double evalMSDCoverage = evalMSD.getCoverage(n);
       System.out.println(
@@ -76,7 +78,7 @@ public class Main {
 
       EvalResult evalResnick = evalMSDResnick.getEfficiency(n);
 
-      DataWriter resnickWriter = new DataWriter(OUTPUT_RESNICK);
+      DataWriter resnickWriter = new DataWriter(String.format(OUTPUT_RESNICK, n));
       resnickWriter.writeData(EvalObj.header, new ArrayList<>(evalResnick.getEvalObjs()));
       double evalResnickCoverage = evalMSDResnick.getCoverage(n);
       System.out.println(
