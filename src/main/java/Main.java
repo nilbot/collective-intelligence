@@ -13,24 +13,30 @@ public class Main {
     String OUTPUT_BASELINE = "baseline.csv";
     String OUTPUT_MSD = "msd%d.csv";
     String OUTPUT_RESNICK = "resnick%d.csv";
+    String LOGFILE = "output.log";
 
-    System.out.println("Started...");
+    DataWriter logWriter = new DataWriter(LOGFILE);
+
+    List<String> logs = new ArrayList<>();
+
+    logs.add(String.format("Started..."));
 
     DataReader dr = new DataReader(INPUT);
     Set<Movie> movieSet = new HashSet<>(dr.getMovieMap().values());
     Set<User> userSet = new HashSet<>(dr.getUserMap().values());
     Set<Rating> ratingSet = dr.getRatingSet();
 
-    System.out.println("User count: " + userSet.size());
-    System.out.println("Movie count: " + movieSet.size());
-    System.out.println("Rating count: " + ratingSet.size());
-    System.out.println("Rating Density: " + DataSetStatistics.densityRatings(userSet, movieSet));
+    logs.add(String.format("User count: " + userSet.size()));
+    logs.add(String.format("Movie count: " + movieSet.size()));
+    logs.add(String.format("Rating count: " + ratingSet.size()));
+    logs.add(
+        String.format("Rating Density: " + DataSetStatistics.densityRatings(userSet, movieSet)));
     Map<Double, Integer> map = DataSetStatistics.ratingBin(ratingSet);
-    System.out.println(
+    logs.add(String.format(
         "Rating bin count for 1.0: " + map.get(1.) + " 2.0: " + map.get(2.) + " 3.0: " + map.get(3.)
-            + " 4.0: " + map.get(4.) + " 5.0: " + map.get(5.));
+            + " 4.0: " + map.get(4.) + " 5.0: " + map.get(5.)));
 
-    System.out.println("Mean Rating: " + DataSetStatistics.MeanRatingAll(ratingSet));
+    logs.add(String.format("Mean Rating: " + DataSetStatistics.MeanRatingAll(ratingSet)));
 
     DataWriter statsWriter = new DataWriter(OUTPUT_STATS_PER_USER);
     List<StatsPerXXObj> objs = DataSetStatistics.PerUser(userSet);
@@ -55,10 +61,10 @@ public class Main {
     DataWriter baselineWriter = new DataWriter(OUTPUT_BASELINE);
     baselineWriter.writeData(EvalObj.header, new ArrayList<>(evalBaseLineRes.getEvalObjs()));
     double evalBaseLineCoverage = evalBaseLine.getCoverage(userSet.size());
-    System.out.println(
+    logs.add(String.format(
         "BaseLine\n====\nN: " + userSet.size() + "\nRMSE: " + evalBaseLineRes.getRmse()
             + "\nCoverage: " + evalBaseLineCoverage + "\nEfficiency: " + evalBaseLineRes
-            .getRuntime() + " ms.\n");
+            .getRuntime() + " ms.\n"));
 
     // evaluation L1O on different threshold n
     int[] N = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300};
@@ -72,20 +78,21 @@ public class Main {
       DataWriter msdWriter = new DataWriter(String.format(OUTPUT_MSD, n));
       msdWriter.writeData(EvalObj.header, new ArrayList<>(evalMSDRes.getEvalObjs()));
       double evalMSDCoverage = evalMSD.getCoverage(n);
-      System.out.println(
+      logs.add(String.format(
           "MSD\n====\nN: " + n + "\nRMSE: " + evalMSDRes.getRmse() + "\nCoverage: "
-              + evalMSDCoverage + "\nEfficiency: " + evalMSDRes.getRuntime() + " ms.\n");
+              + evalMSDCoverage + "\nEfficiency: " + evalMSDRes.getRuntime() + " ms.\n"));
 
       EvalResult evalResnick = evalMSDResnick.getEfficiency(n);
 
       DataWriter resnickWriter = new DataWriter(String.format(OUTPUT_RESNICK, n));
       resnickWriter.writeData(EvalObj.header, new ArrayList<>(evalResnick.getEvalObjs()));
       double evalResnickCoverage = evalMSDResnick.getCoverage(n);
-      System.out.println(
+      logs.add(String.format(
           "MSD + Resnick\n====\nN: " + n + "\nRMSE: " + evalResnick.getRmse()
               + "\nCoverage: " + evalResnickCoverage + "\nEfficiency: " + evalResnick.getRuntime()
-              + " ms.\n");
+              + " ms.\n"));
     }
+    logWriter.writeData("\n====\n", new ArrayList<>(logs));
   }
 }
 

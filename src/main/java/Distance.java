@@ -134,7 +134,7 @@ public class Distance implements SimilarityInterface {
       }
     }
     int count = 0;
-    while (true) {
+    while (sorted.size() > 0) {
       User v = sorted.pollFirstEntry().getValue();
       res.add(v);
       if (++count == threshold) {
