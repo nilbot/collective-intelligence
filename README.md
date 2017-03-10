@@ -3,7 +3,7 @@
 ## How to run on Unix
 Note: I have no idea how Windows works so you will have to try on your own.
 ### System Prerequistes
-- Java
+- Java 1.8 (lambda, concurrency)
 ### Run Task to generate outputs
 `./gradlew clean run`
 
