@@ -1,0 +1,185 @@
+
+====
+
+Started...
+User count: 943
+Movie count: 1682
+Rating count: 100000
+Rating Density: 0.06304669364224531
+Rating bin count for 1.0: 6110 2.0: 11370 3.0: 27145 4.0: 34174 5.0: 21201
+Mean Rating: 3.52986
+BaseLine
+====
+N: 943
+RMSE: 1.1268639970237353
+Coverage: 1.0
+Efficiency: 1460788 ms.
+
+MSD
+====
+N: 10
+RMSE: 3.616213489272999
+Coverage: 0.35837
+Efficiency: 23910 ms.
+
+MSD + Resnick
+====
+N: 10
+RMSE: 3.641022016465412
+Coverage: 0.35837
+Efficiency: 56203 ms.
+
+MSD
+====
+N: 20
+RMSE: 2.779645660871184
+Coverage: 0.59469
+Efficiency: 25048 ms.
+
+MSD + Resnick
+====
+N: 20
+RMSE: 2.8401083760943653
+Coverage: 0.59469
+Efficiency: 52923 ms.
+
+MSD
+====
+N: 30
+RMSE: 2.1357598179570663
+Coverage: 0.74693
+Efficiency: 24427 ms.
+
+MSD + Resnick
+====
+N: 30
+RMSE: 2.240254306653724
+Coverage: 0.74693
+Efficiency: 33067 ms.
+
+MSD
+====
+N: 40
+RMSE: 1.6688229384808924
+Coverage: 0.83689
+Efficiency: 23000 ms.
+
+MSD + Resnick
+====
+N: 40
+RMSE: 1.8216401457790217
+Coverage: 0.83689
+Efficiency: 34486 ms.
+
+MSD
+====
+N: 50
+RMSE: 1.3450278807519196
+Coverage: 0.88931
+Efficiency: 25467 ms.
+
+MSD + Resnick
+====
+N: 50
+RMSE: 1.546013462816976
+Coverage: 0.88931
+Efficiency: 35926 ms.
+
+MSD
+====
+N: 60
+RMSE: 1.1193926924899948
+Coverage: 0.92049
+Efficiency: 24967 ms.
+
+MSD + Resnick
+====
+N: 60
+RMSE: 1.365812540146619
+Coverage: 0.92049
+Efficiency: 39927 ms.
+
+MSD
+====
+N: 70
+RMSE: 0.9606039766730097
+Coverage: 0.94036
+Efficiency: 25610 ms.
+
+MSD + Resnick
+====
+N: 70
+RMSE: 1.2485921695975868
+Coverage: 0.94036
+Efficiency: 40303 ms.
+
+MSD
+====
+N: 80
+RMSE: 0.836319317007565
+Coverage: 0.95425
+Efficiency: 24772 ms.
+
+MSD + Resnick
+====
+N: 80
+RMSE: 1.1641206674784528
+Coverage: 0.95425
+Efficiency: 43658 ms.
+
+MSD
+====
+N: 90
+RMSE: 0.7260922806365593
+Coverage: 0.96476
+Efficiency: 25343 ms.
+
+MSD + Resnick
+====
+N: 90
+RMSE: 1.094550005590505
+Coverage: 0.96476
+Efficiency: 47016 ms.
+
+MSD
+====
+N: 100
+RMSE: 0.6525411864395994
+Coverage: 0.97142
+Efficiency: 26676 ms.
+
+MSD + Resnick
+====
+N: 100
+RMSE: 1.0540032567350397
+Coverage: 0.97142
+Efficiency: 50592 ms.
+
+MSD
+====
+N: 200
+RMSE: 0.3358571124749333
+Coverage: 0.9921
+Efficiency: 30323 ms.
+
+MSD + Resnick
+====
+N: 200
+RMSE: 0.9410139731348667
+Coverage: 0.9921
+Efficiency: 89833 ms.
+
+MSD
+====
+N: 300
+RMSE: 0.249499498997493
+Coverage: 0.99543
+Efficiency: 33371 ms.
+
+MSD + Resnick
+====
+N: 300
+RMSE: 0.9405529282801903
+Coverage: 0.99543
+Efficiency: 124059 ms.
+
