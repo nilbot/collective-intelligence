@@ -1,17 +1,14 @@
 public class Movie {
-    private String name;
-    private Integer id;
 
-    public Movie(final String name, final Integer id) {
-        this.name = name;
-        this.id = id;
-    }
+  private String name;
+  private Integer id;
 
-    public Integer getId() {
-        return this.id;
-    }
+  public Movie(final Integer id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return this.name;
-    }
+  public int getId() {
+    return this.id;
+  }
+
 }
